@@ -1,14 +1,8 @@
 package com.curso.udemyalisson.config;
 
-import com.curso.udemyalisson.entities.Category;
-import com.curso.udemyalisson.entities.Order;
-import com.curso.udemyalisson.entities.Product;
-import com.curso.udemyalisson.entities.User;
+import com.curso.udemyalisson.entities.*;
 import com.curso.udemyalisson.entities.enums.OrderStatus;
-import com.curso.udemyalisson.repositories.CategoryRepository;
-import com.curso.udemyalisson.repositories.OrderRepository;
-import com.curso.udemyalisson.repositories.ProductRepository;
-import com.curso.udemyalisson.repositories.UserRepository;
+import com.curso.udemyalisson.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -65,11 +62,14 @@ public class TestConfig implements CommandLineRunner {
         Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);
         Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u1);
 
-
-
-
         userRepository.saveAll(Arrays.asList(u1,u2));
         orderRepository.saveAll(Arrays.asList(o1,o2,o3));
 
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
     }
 }
