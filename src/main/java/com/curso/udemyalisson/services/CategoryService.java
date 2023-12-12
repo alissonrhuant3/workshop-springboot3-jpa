@@ -14,7 +14,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    //Return all users
+    //Return all categories
     public List<Category> findAll(){
         return repository.findAll();
     }
