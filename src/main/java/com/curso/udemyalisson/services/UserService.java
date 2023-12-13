@@ -2,6 +2,7 @@ package com.curso.udemyalisson.services;
 
 import com.curso.udemyalisson.entities.User;
 import com.curso.udemyalisson.repositories.UserRepository;
+import com.curso.udemyalisson.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,10 @@ public class UserService {
         return repository.findAll();
     }
 
-    //Return users by Id
+    //Return users by Id, orElseThrow if null throws an exception specified in the lambda expression
     public User findById(Long id){
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     //save new user
