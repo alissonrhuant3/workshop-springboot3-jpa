@@ -35,4 +35,17 @@ public class UserService {
         repository.deleteById(id);
     }
 
+    //update User; getReferenceById() Works with the object in the background so that changes can be made to the database later
+    public User update(Long id, User obj){
+        User entity = repository.getReferenceById(id);
+        updateData(entity, obj);
+        return repository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
+    }
+
 }
