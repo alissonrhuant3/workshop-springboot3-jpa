@@ -2,8 +2,10 @@ package com.curso.udemyalisson.services;
 
 import com.curso.udemyalisson.entities.User;
 import com.curso.udemyalisson.repositories.UserRepository;
+import com.curso.udemyalisson.services.exceptions.DataBaseException;
 import com.curso.udemyalisson.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,14 @@ public class UserService {
 
     //delete user
     public void delete(Long id){
-        repository.deleteById(id);
+        try {
+            if(!repository.existsById(id)) throw new ResourceNotFoundException(id);
+            repository.deleteById(id);
+        }catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DataBaseException(e.getMessage());
+        }
     }
 
     //update User; getReferenceById() Works with the object in the background so that changes can be made to the database later
