@@ -1,12 +1,14 @@
 package com.curso.udemyalisson.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+//dependent class
 @Entity
 @Table(name = "tb_payment")
 public class Payment implements Serializable {
@@ -19,6 +21,7 @@ public class Payment implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //Format Instant
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;
